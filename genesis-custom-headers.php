@@ -2,8 +2,8 @@
 /*
 Plugin Name: Genesis Custom Headers
 Plugin URI: http://www.outermostdesign.com
-Description: Adds custom headers to Genesis Themes. The Genesis Framework 2.0+ is required.
-Version: 1.0
+Description: Adds custom headers to pages, posts, and custom post types in Genesis Themes. The Genesis Framework 2.0+ is required.
+Version: 1.0.0
 Author: Nick Diego
 Author URI: http://www.outermostdesign.com
 Text Domain: genesis-custom-headers
