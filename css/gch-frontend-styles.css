@@ -1,0 +1,28 @@
+/* Default Image and Caption Styles */
+
+.gch-header-image {
+	margin: 0 auto;
+	text-align: center;
+}
+
+.gch-header-image-inner {
+	display: inline-block;
+	position: relative;
+}
+
+.gch-header-image-inner img {
+	vertical-align: top; 
+}
+
+.gch-caption {
+	bottom: 0px;
+	position: absolute;
+	text-align: right;
+	width: 100%;
+}
+
+.gch-caption-inner {
+	background: rgba(0, 0, 0, .4);
+	color: #fff;
+	padding: 10px 20px;
+}
