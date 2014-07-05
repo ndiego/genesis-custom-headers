@@ -91,9 +91,7 @@ add_action( 'wp_enqueue_scripts', 'gch_frontend_scripts_enqueue' );
  * Loads scripts to the frontend
  */
 function gch_frontend_scripts_enqueue() {
-	//if( is_post_type_archive( 'portfolio' ) ) {
     	wp_enqueue_style( 'gch-frontend-styles',  plugin_dir_url( __FILE__ ) . 'css/gch-frontend-styles.css' );
-   // }
 }
 
 
