@@ -18,7 +18,7 @@ function gch_enable_header_frontend() {
 	$custom	= get_post_custom();
 	$gch_enable_custom_position   = (isset($custom[ '_gch_enable_custom_position' ][0]) ? $custom[ '_gch_enable_custom_position' ][0] : '');
 	$gch_custom_header_position   = (isset($custom[ '_gch_custom_header_position' ][0]) ? $custom[ '_gch_custom_header_position' ][0] : 'genesis_after_header');
-	$gch_custom_header_priority = (isset($custom[ '_gch_custom_position_priority' ][0]) ? $custom[ '_gch_custom_position_priority' ][0] : '1');
+	$gch_custom_header_priority   = (isset($custom[ '_gch_custom_position_priority' ][0]) ? $custom[ '_gch_custom_position_priority' ][0] : '1');
 
 	// Setup our header position variable
 	$header_position = '';
@@ -91,7 +91,7 @@ function gch_print_header() {
 	
 	// Get our global plugin settings
 	$gch_disable_header_wrap 		  = genesis_get_option( 'disable_header_wrap', 'genesis-custom-header' );
-	$gch_global_enable_header_scripts = genesis_get_option( 'enable_header_scripts', 'genesis-custom-header' ) ;
+	$gch_global_enable_header_raw     = genesis_get_option( 'enable_header_raw', 'genesis-custom-header' ) ;
 	
 	$custom	= get_post_custom();
 	
@@ -110,8 +110,8 @@ function gch_print_header() {
 	$gch_sliderpro_slider  		= (isset($custom[ '_gch_sliderpro_slider' ][0]) ? $custom[ '_gch_sliderpro_slider' ][0] : '');
   	$gch_enable_custom_content	= (isset($custom[ '_gch_enable_custom_content' ][0]) ? $custom[ '_gch_enable_custom_content' ][0] : 0);
 	$gch_custom_content  		= (isset($custom[ '_gch_custom_content' ][0]) ? $custom[ '_gch_custom_content' ][0] : '');
-	$gch_enable_header_scripts  = (isset($custom[ '_gch_enable_header_scripts' ][0]) ? $custom[ '_gch_enable_header_scripts' ][0] : 0);
-	$gch_header_scripts  		= (isset($custom[ '_gch_header_scripts' ][0]) ? $custom[ '_gch_header_scripts' ][0] : '');
+	$gch_enable_header_raw      = (isset($custom[ '_gch_enable_header_raw' ][0]) ? $custom[ '_gch_enable_header_raw' ][0] : 0);
+	$gch_header_raw  		    = (isset($custom[ '_gch_header_raw' ][0]) ? $custom[ '_gch_header_raw' ][0] : '');
 
   	// If the header is been enabled, do stuff...		
 	if ( $gch_enable_header == 1 ) {
@@ -206,9 +206,9 @@ function gch_print_header() {
 		
 		
 		// Display header scripts
-		if ( $gch_global_enable_header_scripts == 1 && $gch_enable_header_scripts == 1 ) {
+		if ( $gch_global_enable_header_raw == 1 && $gch_enable_header_raw == 1 ) {
 			echo '<div class="gch-header-scripts">';
-				echo do_shortcode( $gch_header_scripts );   
+				echo do_shortcode( $gch_header_raw );   
 			echo '</div>';
 		}
 		

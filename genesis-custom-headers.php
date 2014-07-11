@@ -2,7 +2,7 @@
 /*
 Plugin Name: Genesis Custom Headers
 Plugin URI: http://www.outermostdesign.com
-Description: Adds custom headers to pages, posts, and custom post types in Genesis Themes. The Genesis Framework 2.0+ is required.
+Description: Adds custom headers to pages, posts, and custom post types in Genesis themes. The Genesis Framework 2.0+ is required.
 Version: 1.0.0
 Author: Nick Diego
 Author URI: http://www.outermostdesign.com
@@ -91,7 +91,7 @@ add_action( 'wp_enqueue_scripts', 'gch_frontend_scripts_enqueue' );
  * Loads scripts to the frontend
  */
 function gch_frontend_scripts_enqueue() {
-    	wp_enqueue_style( 'gch-frontend-styles',  plugin_dir_url( __FILE__ ) . 'css/gch-frontend-styles.css' );
+    wp_enqueue_style( 'gch-frontend-styles',  plugin_dir_url( __FILE__ ) . 'css/gch-frontend-styles.css' );
 }
 
 

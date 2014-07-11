@@ -53,7 +53,7 @@ function gch_metabox_function( $post ) {
 	$type = get_post_type( get_the_ID() );
 
 	// Get our global plugin settings
-	$gch_global_enable_header_scripts = genesis_get_option( 'enable_header_scripts', 'genesis-custom-header' ) ;
+	$gch_global_enable_header_raw = genesis_get_option( 'enable_header_raw', 'genesis-custom-header' ) ;
 	$gch_force_header_position 		  = genesis_get_option( 'force_header_position', 'genesis-custom-header' ) ;
 
 	$custom = get_post_custom( $post->ID );
@@ -76,8 +76,8 @@ function gch_metabox_function( $post ) {
 	$gch_sliderpro_slider		  = (isset($custom[ '_gch_sliderpro_slider' ][0]) ? $custom[ '_gch_sliderpro_slider' ][0] : 'none');	
 	$gch_enable_custom_content	  = (isset($custom[ '_gch_enable_custom_content' ][0]) ? $custom[ '_gch_enable_custom_content' ][0] : 0);
 	$gch_custom_content  		  = (isset($custom[ '_gch_custom_content' ][0]) ? $custom[ '_gch_custom_content' ][0] : '');
-	$gch_enable_header_scripts    = (isset($custom[ '_gch_enable_header_scripts' ][0]) ? $custom[ '_gch_enable_header_scripts' ][0] : 0);
-	$gch_header_scripts  		  = (isset($custom[ '_gch_header_scripts' ][0]) ? $custom[ '_gch_header_scripts' ][0] : '');
+	$gch_enable_header_raw    	  = (isset($custom[ '_gch_enable_header_raw' ][0]) ? $custom[ '_gch_enable_header_raw' ][0] : 0);
+	$gch_header_raw  		  = (isset($custom[ '_gch_header_raw' ][0]) ? $custom[ '_gch_header_raw' ][0] : '');
 
 	wp_nonce_field( 'gch_header_nonce', 'gch_add_edit_header_noncename' );
 
@@ -303,23 +303,23 @@ function gch_metabox_function( $post ) {
 		</tbody>
 	</table>
 	
-	<?php if ( $gch_global_enable_header_scripts == 1 ) { ?>
+	<?php if ( $gch_global_enable_header_raw == 1 ) { ?>
 	<div class="gch-meta-separator <?php if ( $gch_enable_header != '1' ) echo ('hidden'); ?> gch-enabled "></div>
 	
 	<table class="form-table <?php if ( $gch_enable_header != '1' ) echo ('hidden'); ?> gch-enabled">
 		<tbody>
 			<tr id="gch-header-scripts">
-				<th scope="row"><strong><?php _e( 'Header Scripts', 'genesis-custom-header' ); ?></strong></th>
+				<th scope="row"><strong><?php _e( 'Header Raw Content', 'genesis-custom-header' ); ?></strong></th>
 				<td>
-					<label for="gch_enable_header_scripts"><input type="checkbox" name="gch_enable_header_scripts" id="gch_enable_header_scripts" class="gch_toggles" value="1" <?php checked( $gch_enable_header_scripts ); ?> /> <?php _e( 'Check to enable', 'genesis-custom-header' ); ?></label>
+					<label for="gch_enable_header_raw"><input type="checkbox" name="gch_enable_header_raw" id="gch_enable_header_raw" class="gch_toggles" value="1" <?php checked( $gch_enable_header_raw ); ?> /> <?php _e( 'Check to enable', 'genesis-custom-header' ); ?></label>
 				</td>
 			</tr>
-			<tr class="<?php if ( $gch_enable_header_scripts != '1' ) echo ('hidden'); ?> gch-header-scripts-enabled">
+			<tr class="<?php if ( $gch_enable_header_raw != '1' ) echo ('hidden'); ?> gch-header-raw-enabled">
 				<th scope="row"></th>
 				<td>
-					<textarea class="gch-code-textbox" name="gch_header_scripts" id="gch_header_scripts" rows="6" ><?php echo esc_attr( $gch_header_scripts ); ?></textarea>	
+					<textarea class="gch-code-textbox" name="gch_header_raw" id="gch_header_raw" rows="6" ><?php echo esc_attr( $gch_header_raw ); ?></textarea>	
 					<div class="gch-description">
-						<?php _e( 'The Header Scripts box will accept anything, including raw HTML, scripts, iframes, etc. No data sanitation is preformed, so use with caution.', 'genesis-custom-header' ); ?>
+						<?php _e( 'The Header Raw Content box will accept practically anything except PHP. No data sanitation is preformed, so use with caution.', 'genesis-custom-header' ); ?>
 					</div>
 				</td>
 			</tr>
@@ -416,13 +416,13 @@ function gch_save_meta( $post_id ) {
 	
 	
 	// Save header scripts meta
-	if ( isset( $_POST[ 'gch_enable_header_scripts' ] ) ) {	
-		update_post_meta( $post_id, '_gch_enable_header_scripts', $_POST['gch_enable_header_scripts'] );
+	if ( isset( $_POST[ 'gch_enable_header_raw' ] ) ) {	
+		update_post_meta( $post_id, '_gch_enable_header_raw', $_POST['gch_enable_header_raw'] );
 	} else {
-		delete_post_meta( $post_id, '_gch_enable_header_scripts' );
+		delete_post_meta( $post_id, '_gch_enable_header_raw' );
 	}
-	if ( isset( $_POST[ 'gch_header_scripts' ] ) ) {	
-		update_post_meta( $post_id, '_gch_header_scripts', $_POST['gch_header_scripts'] );
+	if ( isset( $_POST[ 'gch_header_raw' ] ) ) {	
+		update_post_meta( $post_id, '_gch_header_raw', $_POST['gch_header_raw'] );
 	}
 
 }

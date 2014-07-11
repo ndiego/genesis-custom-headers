@@ -45,7 +45,7 @@ function gch_register_admin_settings() {
 				'enable_post'			=> 0,
 				'enable_portfolio'		=> 0,   // For use with the OD Portfolio plugin
 				'metabox_title'			=> '',
-				'enable_header_scripts' => 0,
+				'enable_header_raw' => 0,
 				'header_position'		=> 'genesis_after_header',
 				'header_priority'		=> '1',
 				'force_header_position'	=> 0,
@@ -136,14 +136,14 @@ function gch_register_admin_settings() {
 			
 			<p><span class="gch-description"><?php _e( 'Only "public" custom post types will be displayed above. Disabling custom headers on a specific post type will not remove any meta data.', 'genesis-custom-header' ); ?></span></p>
 				
-			<h4><?php _e( 'Enable Header Scripts', 'genesis-custom-header' ); ?></h4>
+			<h4><?php _e( 'Enable Header Raw Content', 'genesis-custom-header' ); ?></h4>
 			<p>	
-				<label for="<?php echo $this->get_field_id( 'enable_header_scripts' ); ?>">
-					<input type="checkbox" name="<?php echo $this->get_field_name( 'enable_header_scripts' ); ?>" id="<?php echo $this->get_field_id( 'enable_header_scripts' ); ?>" value="1" <?php checked( $this->get_field_value( 'enable_header_scripts' ) ); ?> />
-					<?php _e( 'Check to enable scripts', 'genesis-custom-header' ); ?> 
+				<label for="<?php echo $this->get_field_id( 'enable_header_raw' ); ?>">
+					<input type="checkbox" name="<?php echo $this->get_field_name( 'enable_header_raw' ); ?>" id="<?php echo $this->get_field_id( 'enable_header_raw' ); ?>" value="1" <?php checked( $this->get_field_value( 'enable_header_raw' ) ); ?> />
+					<?php _e( 'Check to enable raw content', 'genesis-custom-header' ); ?> 
 				</label>
 			</p>
-			<p><span class="gch-description"><?php _e( 'Enabling header scripts adds a new field in the Genesis Custom Header metabox for adding scripts, iframes, raw HTML, and really anything else. Data is not sanitized, so enable with caution.', 'genesis-custom-header' ); ?></span></p>
+			<p><span class="gch-description"><?php _e( 'Enabling header raw content adds a new field in the Genesis Custom Header metabox for adding raw HTML, CSS, scripts, iframes and really anything else except PHP. Data is not sanitized, so enable with caution.', 'genesis-custom-header' ); ?></span></p>
 
 		
 			<h4><label for="<?php echo $this->get_field_id( 'metabox_title' ); ?>"><?php _e( 'Custom Metabox Title', 'genesis-custom-header' ); ?></label></h4>
@@ -203,14 +203,14 @@ function gch_register_admin_settings() {
 			<p><span class="gch-description"><?php echo sprintf( __( 'Other plugins and themes can use Genesis Hooks to add content to the page. A High priority tells Wordpress to try and add your custom header before all other content using the same Genesis Hook. Medium and Low priority settings will add the custom header later in the queue. (Developer Reference: High = 1, Medium = 10, Low = 100)', 'genesis-custom-header' ), '<a href="http://genesistutorials.com/visual-hook-guide/" alt="Genesis Visual Hook Guide" target="_blank">', '</a>' ); ?></span></p>
 
 			
-			<h4><?php _e( 'Force Global Header Position', 'genesis-custom-header' ); ?></h4>
+			<h4><?php _e( 'Force Global Header Positioning', 'genesis-custom-header' ); ?></h4>
 			<p>	
 				<label for="<?php echo $this->get_field_id( 'force_header_position' ); ?>">
 					<input type="checkbox" name="<?php echo $this->get_field_name( 'force_header_position' ); ?>" id="<?php echo $this->get_field_id( 'force_header_position' ); ?>" value="1" <?php checked( $this->get_field_value( 'force_header_position' ) ); ?> />
 					<?php _e( 'Check to force all headers into the Global Header Position using the Global Header Priority', 'genesis-custom-header' ); ?>
 				</label>
 			</p>
-			<p><span class="gch-description"><?php _e( 'Unless this setting is enabled, the Global Header Position and Global Header Priority settings simply acts as defaults and can be overridden by the Custom Header Positioning options on each page, post, and custom post type. Activating this setting will also hide the Custom Header Positioning options.', 'genesis-custom-header' ); ?></span></p>
+			<p><span class="gch-description"><?php _e( 'Unless this setting is enabled, the Global Header Position and Global Header Priority settings simply acts as defaults and can be overridden by the Custom Header Positioning options on each page, post, and custom post type. Activating this setting will hide the Custom Header Positioning options.', 'genesis-custom-header' ); ?></span></p>
 
 		<?php
 		} // end position_settings()
@@ -241,7 +241,7 @@ function gch_register_admin_settings() {
 			</p>
 			<p><span class="gch-description"><?php _e( 'By default, very minimal CSS is applied by this plugin. However unique selectors have been provided for each element of the plugin\'s frontend markup. Enter your custom CSS below.', 'genesis-custom-header' ); ?></span></p>
 			<p>
-				<textarea class="gch-code-textbox" name="<?php echo $this->get_field_name( 'header_css' ); ?>" id="<?php echo $this->get_field_id( 'header_css' ); ?>" rows="12" ><?php echo esc_attr( $this->get_field_value( 'header_css' ) ); ?></textarea>	
+				<textarea class="gch-code-textbox" name="<?php echo $this->get_field_name( 'header_css' ); ?>" id="<?php echo $this->get_field_id( 'header_css' ); ?>" rows="10" ><?php echo esc_attr( $this->get_field_value( 'header_css' ) ); ?></textarea>	
 			</p>
 
 
@@ -287,8 +287,8 @@ function gch_register_admin_settings() {
          Custom Content
       </div>
       
-      <div class="gch-header-scripts"> 
-         Header Scripts
+      <div class="gch-header-raw"> 
+         Header Raw Content
       </div>
       
    </div>

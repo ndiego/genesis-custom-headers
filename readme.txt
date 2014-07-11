@@ -13,9 +13,9 @@ Add custom headers to each page/post/custom post type. Header options include: f
 
 **Please Note:** This plugin is only for Genesis Framework users. Genesis is a premium product by [StudioPress](http://www.studiopress.com).
 
-Originally designed to allow the easy addition of custom images and featured images to selected posts, this plugin was greatly expanded to provide a wide range of header content options. In addition, custom headers can be repositioned globally or locally using Genesis Hooks for greater flexibility. 
+Originally designed to allow the easy addition of custom images and featured images to selected posts, this plugin was greatly expanded to provide a wide range of header content options which are listed below. It is important to mention that this plugin does *not* add headers to every page of your site like some other plugins in the Wordpress plugin repository. Genesis Custom Headers simply allows you to add customized headers to pages, posts, and public custom post types.
 
-This plugin purposefully includes minimal styling so that custom headers can adapt to your site. That said, custom CSS will often need to be added to achieve the precise aesthetic you are looking for. Custom CSS can be added directly from the plugin Settings Page. If you have questions or would like to request additional features, let me know in the plugin support forum. 
+Also this plugin purposefully includes minimal styling so that custom headers can adapt to your site. That said, custom CSS will occasionally be need to be added to achieve the precise aesthetic you are looking for. Custom CSS can be added directly from the plugin Settings Page. If you have questions or would like to request additional features, let me know in the plugin support forum. 
 
 = Header Content Options =
 * Display the featured image
@@ -41,17 +41,19 @@ Genesis Custom Headers does not actually include copies of the slider plugins li
 1. You have a couple options:
 	* *Go to Plugins->Add New and search for "Genesis Custom Headers”. Once found, click "Install".
 	* *Download the folder from Wordpress.org and zip the folder. Then upload via Plugins->Add New->Upload.
-2. Activate the plugin through the 'Plugins' menu in WordPress
+2. Activate the plugin through the 'Plugins' menu in WordPress.
+3. From the ‘Plugins’ page, head directly to the plugin ‘Settings’ page to configure your global options.
+4. Once the global settings have been set, navigate to a post, page, or custom post type, and edit the ‘Genesis Custom Headers’ metabox to your liking. If you have any implementation questions, please post in the plugin support forum.
 
 **Please Note:** This plugin is only for Genesis Framework users. Genesis is a premium product by [StudioPress](http://www.studiopress.com). If you do not have Genesis 2.0+ or Wordpress 3.6+, the plugin will not activate. 
 
 == Screenshots ==
 
-1. Screenshot of Genesis Custom Headers metabox with no header options selected. 
-2. Screenshot of Genesis Custom Headers metabox with all header options selected. 
+1. Screenshot of Genesis Custom Headers metabox with no header options selected on a new page. 
+2. Screenshot of Genesis Custom Headers metabox with all header options selected on an existing page. 
 3. Screenshot of the Settings Page for Genesis Custom Headers
-4. An output example using the Genesis default theme by StudioPress
-5. An output example using the Enterprise Pro these by StudioPress
+4. An output example using custom content on the Genesis default theme by StudioPress
+5. An output example using a custom image and caption on the Genesis default theme by StudioPress
 
 == Changelog ==
 

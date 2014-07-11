@@ -101,11 +101,11 @@ jQuery(document).ready(function($){
 	});
 	
 	/* Shows and hides header scripts on selection */
-	$( '#gch_enable_header_scripts' ).change( function(){
+	$( '#gch_enable_header_raw' ).change( function(){
 		if ( this.checked ) {
-			$( '.gch-header-scripts-enabled').show();
+			$( '.gch-header-raw-enabled').show();
 		} else {
-			$( '.gch-header-scripts-enabled').hide();
+			$( '.gch-header-raw-enabled').hide();
 		}
 	});
 
