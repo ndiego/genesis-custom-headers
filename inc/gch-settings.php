@@ -41,17 +41,19 @@ function gch_register_admin_settings() {
 	
 			// Set the default values
 			$default_settings = array(
-				'enable_page'			=> 1,
-				'enable_post'			=> 0,
-				'enable_portfolio'		=> 0,   // For use with the OD Portfolio plugin
-				'metabox_title'			=> '',
-				'enable_header_raw' => 0,
-				'header_position'		=> 'genesis_after_header',
-				'header_priority'		=> '1',
-				'force_header_position'	=> 0,
-				'disable_header_wrap'	=> 0,
-				'enable_header_css'		=> 0,
-				'header_css'			=> '',
+				'enable_page'			  => 1,
+				'enable_post'			  => 0,
+				'metabox_title'			  => '',
+				'enable_header_image'	  => 1,
+				'enable_header_slideshow' => 1,
+				'enable_header_content'	  => 1,
+				'enable_header_raw' 	  => 0,
+				'header_position'		  => 'genesis_after_header',
+				'header_priority'		  => '1',
+				'force_header_position'	  => 0,
+				'disable_header_wrap'	  => 0,
+				'enable_header_css'		  => 0,
+				'header_css'			  => '',
 			);
 	
 			// Create the Admin Page
@@ -101,7 +103,7 @@ function gch_register_admin_settings() {
 			
 			<h4><?php _e( 'Enable Custom Headers On All...', 'genesis-custom-header' ); ?></h4>
 			<p>	
-				Built-in Post Types: &nbsp;
+				<?php _e( 'Built-in Post Types:', 'genesis-custom-header' ); ?> &nbsp;
 				<label for="<?php echo $this->get_field_id( 'enable_page' ); ?>">
 					<input type="checkbox" name="<?php echo $this->get_field_name( 'enable_page' ); ?>" id="<?php echo $this->get_field_id( 'enable_page' ); ?>" value="1" <?php checked( $this->get_field_value( 'enable_page' ) ); ?> />
 					<?php _e( 'Pages', 'genesis-custom-header' ); ?> &nbsp; 
@@ -112,7 +114,7 @@ function gch_register_admin_settings() {
 				</label>
 			</p>
 			<p>
-				Custom Post Types:&nbsp;
+				<?php _e( 'Custom Post Types:', 'genesis-custom-header' ); ?>&nbsp;
 				<?php
 				// Get all custom post types in an array by name			
 				$custom_post_types = get_post_types( array( 'public' => true, '_builtin' => false ), 'names', 'and' ); 
@@ -136,14 +138,32 @@ function gch_register_admin_settings() {
 			
 			<p><span class="gch-description"><?php _e( 'Only "public" custom post types will be displayed above. Disabling custom headers on a specific post type will not remove any meta data.', 'genesis-custom-header' ); ?></span></p>
 				
-			<h4><?php _e( 'Enable Header Raw Content', 'genesis-custom-header' ); ?></h4>
+			<h4><?php _e( 'Customize Header Options', 'genesis-custom-header' ); ?></h4>
+			<p>	
+				<label for="<?php echo $this->get_field_id( 'enable_header_image' ); ?>">
+					<input type="checkbox" name="<?php echo $this->get_field_name( 'enable_header_image' ); ?>" id="<?php echo $this->get_field_id( 'enable_header_image' ); ?>" value="1" <?php checked( $this->get_field_value( 'enable_header_image' ) ); ?> />
+					<?php _e( 'Check to enable Header Images', 'genesis-custom-header' ); ?> 
+				</label>
+			</p>
+			<p>	
+				<label for="<?php echo $this->get_field_id( 'enable_header_slideshow' ); ?>">
+					<input type="checkbox" name="<?php echo $this->get_field_name( 'enable_header_slideshow' ); ?>" id="<?php echo $this->get_field_id( 'enable_header_slideshow' ); ?>" value="1" <?php checked( $this->get_field_value( 'enable_header_slideshow' ) ); ?> />
+					<?php _e( 'Check to enable Header Slideshows', 'genesis-custom-header' ); ?> 
+				</label>
+			</p>
+			<p>	
+				<label for="<?php echo $this->get_field_id( 'enable_header_raw' ); ?>">
+					<input type="checkbox" name="<?php echo $this->get_field_name( 'enable_header_content' ); ?>" id="<?php echo $this->get_field_id( 'enable_header_content' ); ?>" value="1" <?php checked( $this->get_field_value( 'enable_header_content' ) ); ?> />
+					<?php _e( 'Check to enable Header Custom Content', 'genesis-custom-header' ); ?> 
+				</label>
+			</p>
 			<p>	
 				<label for="<?php echo $this->get_field_id( 'enable_header_raw' ); ?>">
 					<input type="checkbox" name="<?php echo $this->get_field_name( 'enable_header_raw' ); ?>" id="<?php echo $this->get_field_id( 'enable_header_raw' ); ?>" value="1" <?php checked( $this->get_field_value( 'enable_header_raw' ) ); ?> />
-					<?php _e( 'Check to enable raw content', 'genesis-custom-header' ); ?> 
+					<?php _e( 'Check to enable Header Raw Content', 'genesis-custom-header' ); ?> 
 				</label>
 			</p>
-			<p><span class="gch-description"><?php _e( 'Enabling header raw content adds a new field in the Genesis Custom Header metabox for adding raw HTML, CSS, scripts, iframes and really anything else except PHP. Data is not sanitized, so enable with caution.', 'genesis-custom-header' ); ?></span></p>
+			<p><span class="gch-description"><?php _e( 'Enabling Header Raw Content adds a new field in the Genesis Custom Header metabox for adding raw HTML, CSS, scripts, iframes and really anything else except PHP. Data is not sanitized, so enable with caution.', 'genesis-custom-header' ); ?></span></p>
 
 		
 			<h4><label for="<?php echo $this->get_field_id( 'metabox_title' ); ?>"><?php _e( 'Custom Metabox Title', 'genesis-custom-header' ); ?></label></h4>

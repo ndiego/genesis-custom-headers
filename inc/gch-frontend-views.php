@@ -90,8 +90,11 @@ function gch_custom_css() {
 function gch_print_header() {
 	
 	// Get our global plugin settings
-	$gch_disable_header_wrap 		  = genesis_get_option( 'disable_header_wrap', 'genesis-custom-header' );
-	$gch_global_enable_header_raw     = genesis_get_option( 'enable_header_raw', 'genesis-custom-header' ) ;
+	$gch_disable_header_wrap 		    = genesis_get_option( 'disable_header_wrap', 'genesis-custom-header' );	
+	$gch_global_enable_header_image 	= genesis_get_option( 'enable_header_image', 'genesis-custom-header' ) ;
+	$gch_global_enable_header_slideshow = genesis_get_option( 'enable_header_slideshow', 'genesis-custom-header' ) ;
+	$gch_global_enable_header_content 	= genesis_get_option( 'enable_header_content', 'genesis-custom-header' ) ;
+	$gch_global_enable_header_raw 		= genesis_get_option( 'enable_header_raw', 'genesis-custom-header' ) ;
 	
 	$custom	= get_post_custom();
 	
@@ -126,7 +129,7 @@ function gch_print_header() {
 		
 		
 		// Display header image, custom or featured
-		if ( $gch_enable_image == 1 ) {
+		if ( $gch_global_enable_header_image == 1 && $gch_enable_image == 1 ) {
 			// Check to see if the current post/page/custom post type has a featured image set
 			$thumbnail = has_post_thumbnail( get_the_ID() );
 			
@@ -158,7 +161,7 @@ function gch_print_header() {
 		
 		
 		// Display header slider
-		if ( $gch_enable_slideshow == 1 ) {
+		if ( $gch_global_enable_header_slideshow == 1 && $gch_enable_slideshow == 1 ) {
 			
 			// Allows us to use is_plugin_active on the frontend
 			include_once( ABSPATH . 'wp-admin/includes/plugin.php' );
@@ -198,7 +201,7 @@ function gch_print_header() {
 		
 		
 		// Display custom content
-		if ( $gch_enable_custom_content == 1 ) {
+		if ( $gch_global_enable_header_content == 1 && $gch_enable_custom_content == 1 ) {
 			echo '<div class="gch-header-content">';
 				echo do_shortcode( wp_kses_post( $gch_custom_content ) );   //do_shortcode needed to enable shortcode functionality (perhaps not the most elegant way of doing this)
 			echo '</div>';

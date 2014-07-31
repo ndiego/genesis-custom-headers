@@ -3,7 +3,7 @@ Contributors: ndiego, outermostdesign
 Tags: header, genesis, custom header, featured image, Genesis Framework, genesiswp
 Requires at least: 3.6
 Tested up to: 3.9.1
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,7 +15,7 @@ Add custom headers to each page/post/custom post type. Header options include: f
 
 Originally designed to allow the easy addition of custom images and featured images to selected posts, this plugin was greatly expanded to provide a wide range of header content options which are listed below. It is important to mention that this plugin does *not* add headers to every page of your site like some other plugins in the Wordpress plugin repository. Genesis Custom Headers simply allows you to add customized headers to pages, posts, and public custom post types.
 
-Also this plugin purposefully includes minimal styling so that custom headers can adapt to your site. That said, custom CSS will occasionally be need to be added to achieve the precise aesthetic you are looking for. Custom CSS can be added directly from the plugin Settings Page. If you have questions or would like to request additional features, let me know in the plugin support forum. 
+Also this plugin purposefully includes minimal styling so that custom headers can adapt to your site. Therefore, custom CSS will occasionally need to be added to achieve the precise aesthetic you are looking for. Custom CSS can be added directly from the plugin Settings Page. If you have questions or would like to request additional features, let me know in the plugin support forum. 
 
 = Header Content Options =
 * Display the featured image
@@ -56,6 +56,11 @@ Genesis Custom Headers does not actually include copies of the slider plugins li
 5. An output example using a custom image and caption on the Genesis default theme by StudioPress
 
 == Changelog ==
+
+= 1.1.0 =
+* Added ability to hide various header options from the Settings Page for a cleaner UI
+* Enhanced compatibility with custom post types
+* Certain comments are now hidden from non-Admins to avoid confusion
 
 = 1.0.0 =
 * Initial Release

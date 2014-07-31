@@ -6,39 +6,35 @@ add_action( 'add_meta_boxes', 'gch_create' );
 /**
  * Create meta box to for all custom header settings
  */
-function gch_create($postType) {
+function gch_create( $postType ) {
 
 	// Get certain plugin settings
-	$enable_post   		= genesis_get_option( 'enable_post', 'genesis-custom-header' );
-	$enable_page   		= genesis_get_option( 'enable_page', 'genesis-custom-header' );
-	$enable_portfolio   = genesis_get_option( 'enable_portfolio', 'genesis-custom-header' );
-	$metabox_title 		= genesis_get_option( 'metabox_title', 'genesis-custom-header' ) ;
+	$metabox_title = genesis_get_option( 'metabox_title', 'genesis-custom-header' ) ;
 	
 	// If custom metabox title not set, display default
 	if ( $metabox_title == '' ) {
 		$metabox_title = __( 'Genesis Custom Headers', 'genesis-custom-header' );
 	}
 	
-	// Enable custom header on pages, posts, or both
-	if ( $enable_post == 1 || $enable_page == 1 ) {
+	// Create an array of all available post types including all public custom post types
+	$available_post_array = array_merge( array('page', 'post'), get_post_types( array( 'public' => true, '_builtin' => false ), 'names', 'and' ) );
 	
-		if ( $enable_post == 1 && $enable_page == 1 ) {
-			$types = array( 'page', 'post' );
-		} elseif ( $enable_post == 1 && $enable_page == 0 ) {
-			$types = array( 'post' );
-		} elseif ( $enable_post == 0 && $enable_page == 1 ) {
-			$types = array( 'page' );
-		}
-		
-		// Add metabox to portfolio pages if OD Portfolio is active and headers on portfolios is enabled
-		if ( is_plugin_active( 'od-portfolio/od-portfolio.php' ) && $enable_portfolio == 1 ) {
-			array_push( $types, 'portfolio' );
-		}
+	// Create an empty array for our activated post types
+	$activated_posts = array();
 	
-		if ( in_array( $postType, $types ) ){
+	// Fill our array with [post_type => activated]
+	foreach ( $available_post_array as $available_post ) {
+		$activated_posts[$available_post] = genesis_get_option( 'enable_' . $available_post, 'genesis-custom-header' ) == 1 ? 1: 0;
+	}
+	
+	// Get the post type of the current page
+	$type = get_post_type( get_the_ID() );
+	
+	// Check to see if the custom headers metabox should be shown on this page
+	foreach ( $activated_posts as $activated_post => $activated ) {
+		if ( $type == $activated_post && $activated == 1 ) {
 			add_meta_box( 'gch-metabox', $metabox_title, 'gch_metabox_function', $postType, 'normal', 'high' );
-		}
-		
+		} 
 	}
 	
 }
@@ -53,8 +49,11 @@ function gch_metabox_function( $post ) {
 	$type = get_post_type( get_the_ID() );
 
 	// Get our global plugin settings
-	$gch_global_enable_header_raw = genesis_get_option( 'enable_header_raw', 'genesis-custom-header' ) ;
-	$gch_force_header_position 		  = genesis_get_option( 'force_header_position', 'genesis-custom-header' ) ;
+	$gch_global_enable_header_image 	= genesis_get_option( 'enable_header_image', 'genesis-custom-header' ) ;
+	$gch_global_enable_header_slideshow = genesis_get_option( 'enable_header_slideshow', 'genesis-custom-header' ) ;
+	$gch_global_enable_header_content 	= genesis_get_option( 'enable_header_content', 'genesis-custom-header' ) ;
+	$gch_global_enable_header_raw 		= genesis_get_option( 'enable_header_raw', 'genesis-custom-header' ) ;
+	$gch_force_header_position 	  		= genesis_get_option( 'force_header_position', 'genesis-custom-header' ) ;
 
 	$custom = get_post_custom( $post->ID );
 
@@ -77,7 +76,7 @@ function gch_metabox_function( $post ) {
 	$gch_enable_custom_content	  = (isset($custom[ '_gch_enable_custom_content' ][0]) ? $custom[ '_gch_enable_custom_content' ][0] : 0);
 	$gch_custom_content  		  = (isset($custom[ '_gch_custom_content' ][0]) ? $custom[ '_gch_custom_content' ][0] : '');
 	$gch_enable_header_raw    	  = (isset($custom[ '_gch_enable_header_raw' ][0]) ? $custom[ '_gch_enable_header_raw' ][0] : 0);
-	$gch_header_raw  		  = (isset($custom[ '_gch_header_raw' ][0]) ? $custom[ '_gch_header_raw' ][0] : '');
+	$gch_header_raw  		      = (isset($custom[ '_gch_header_raw' ][0]) ? $custom[ '_gch_header_raw' ][0] : '');
 
 	wp_nonce_field( 'gch_header_nonce', 'gch_add_edit_header_noncename' );
 
@@ -93,16 +92,18 @@ function gch_metabox_function( $post ) {
 		</tbody>
 	</table>
 	
-	<div class="gch-meta-separator <?php if ( $gch_enable_header != '1' ) echo ('hidden'); ?> <?php if ( $gch_force_header_position == '1' ) echo ('gch_force_hidden') ?> gch-enabled"></div>
-
-	<table class="form-table <?php if ( $gch_enable_header != '1' ) echo ('hidden'); ?> <?php if ( $gch_force_header_position == '1' ) echo ('gch_force_hidden') ?> gch-enabled"">
+	<?php if ( $gch_force_header_position != '1' ) { ?>
+	
+	<div class="gch-meta-separator <?php if ( $gch_enable_header != '1' ) echo ('hidden'); ?> gch-enabled"></div>
+	
+	<table class="form-table <?php if ( $gch_enable_header != '1' ) echo ('hidden'); ?> gch-enabled"">
 		<tbody>
 			<tr>
 				<th scope="row"><strong><?php _e( 'Custom Positioning', 'genesis-custom-header' ); ?></strong></th>
 				<td>						
 					<label for="gch_enable_custom_position"><input type="checkbox" name="gch_enable_custom_position" id="gch_enable_custom_position" class="gch_toggles" value="1" <?php checked( $gch_enable_custom_position ); ?> /> <?php _e( 'Check to enable', 'genesis-custom-header' ); ?></label>
 					<div class="gch-description">
-						<?php echo sprintf( __( 'Custom header positioning will override the global header positioning found on the %1$sSettings Page%2$s.', 'genesis-custom-header' ), '<a href="' . admin_url( 'themes.php?page=genesis-custom-header' ) . '">', '</a>' ); ?>
+						<?php if ( current_user_can( 'manage_options' ) ) echo sprintf( __( 'Custom header positioning will override the global header positioning found on the %1$sSettings Page%2$s.', 'genesis-custom-header' ), '<a href="' . admin_url( 'themes.php?page=genesis-custom-header' ) . '">', '</a>' ); ?>
 					</div>
 				</td>
 			</tr>
@@ -148,14 +149,18 @@ function gch_metabox_function( $post ) {
 						<?php _e( 'Low', 'genesis-custom-header' ); ?>
 					</label>
 					<div class="gch-description">
-						<?php _e( 'Other plugins and themes can use Genesis Hooks to add content to the page. A High priority tells Wordpress to try and add your custom header before all other content using the same Genesis Hook. Medium and Low priority settings will add the custom header later in the queue. (Developer Reference: High = 1, Medium = 10, Low = 100)', 'genesis-custom-header' ); ?>
+						<?php  _e( 'Other plugins and themes can use Genesis Hooks to add content to the page. A High priority tells Wordpress to try and add your custom header before all other content using the same Genesis Hook. Medium and Low priority settings will add the custom header later in the queue. (Developer Reference: High = 1, Medium = 10, Low = 100)', 'genesis-custom-header' ); ?>
 					</div>
 				</td>
 			</tr>
 		</tbody>
 	</table>
 	
+	<?php } ?>
+	
 	<div class="gch-meta-separator <?php if ( $gch_enable_header != '1' ) echo ('hidden'); ?> gch-enabled"></div>
+	
+	<?php if ( $gch_global_enable_header_image == '1' ) { ?>
 	
 	<table class="form-table <?php if ( $gch_enable_header != '1' ) echo ('hidden'); ?> gch-enabled">
 		<tbody>
@@ -212,6 +217,10 @@ function gch_metabox_function( $post ) {
 			</tr>	
 		</tbody>
 	</table>
+		
+	<?php } ?>
+	
+	<?php if ( $gch_global_enable_header_slideshow == '1' ) { ?>
 	
 	<div class="gch-meta-separator <?php if ( $gch_enable_header != '1' ) echo ('hidden'); ?> gch-enabled"></div>
 	
@@ -271,6 +280,10 @@ function gch_metabox_function( $post ) {
 		</tbody>
 	</table>
 	
+	<?php } ?>
+	
+	<?php if ( $gch_global_enable_header_content == '1' ) { ?>
+	
 	<div class="gch-meta-separator <?php if ( $gch_enable_header != '1' ) echo ('hidden'); ?> gch-enabled"></div>
 
 	<table class="form-table <?php if ( $gch_enable_header != '1' ) echo ('hidden'); ?> gch-enabled">
@@ -291,11 +304,11 @@ function gch_metabox_function( $post ) {
 							'quicktags'     => true,
 							'teeny'         => false, 
 							'textarea_rows' => get_option('default_post_edit_rows', 6)
-						);
+						); 
 						wp_editor( $gch_custom_content, 'gch_custom_content', $gch_editor_settings );
 						?>
 						<div class="gch-description">
-							<?php echo sprintf( __( 'The Header Custom Content box will not accept any scripts, iframes, or unsafe HTML. Use the Header Scripts box for these items. If you do not see the Header Scripts box, it can be activated from the plugin %1$sSettings Page%2$s.', 'genesis-custom-header' ), '<a href="' . admin_url( 'themes.php?page=genesis-custom-header' ) . '">', '</a>' ); ?>
+							<?php echo current_user_can( 'manage_options' ) ? sprintf( __( 'The Header Custom Content box will not accept any scripts, iframes, or unsafe HTML. Use the Header Raw Content box for these items. If you do not see the Header Raw Content box, it can be activated from the plugin %1$sSettings Page%2$s.', 'genesis-custom-header' ), '<a href="' . admin_url( 'themes.php?page=genesis-custom-header' ) . '">', '</a>' ) : __( 'The Header Custom Content box will not accept any scripts, iframes, or unsafe HTML.', 'genesis-custom-header' ); ?>
 						</div>
 					</div>
 				<td>
@@ -303,7 +316,10 @@ function gch_metabox_function( $post ) {
 		</tbody>
 	</table>
 	
+	<?php } ?>
+	
 	<?php if ( $gch_global_enable_header_raw == 1 ) { ?>
+	
 	<div class="gch-meta-separator <?php if ( $gch_enable_header != '1' ) echo ('hidden'); ?> gch-enabled "></div>
 	
 	<table class="form-table <?php if ( $gch_enable_header != '1' ) echo ('hidden'); ?> gch-enabled">
@@ -325,6 +341,7 @@ function gch_metabox_function( $post ) {
 			</tr>
 		</tbody>
 	</table>
+	
 	<?php } 
 	
 }
@@ -335,6 +352,13 @@ add_action( 'save_post', 'gch_save_meta' );
  * Save all data for staff_member custom post type
  */
 function gch_save_meta( $post_id ) {
+
+	// Get our global plugin settings
+	$gch_global_enable_header_image 	= genesis_get_option( 'enable_header_image', 'genesis-custom-header' ) ;
+	$gch_global_enable_header_slideshow = genesis_get_option( 'enable_header_slideshow', 'genesis-custom-header' ) ;
+	$gch_global_enable_header_content 	= genesis_get_option( 'enable_header_content', 'genesis-custom-header' ) ;
+	$gch_global_enable_header_raw 		= genesis_get_option( 'enable_header_raw', 'genesis-custom-header' ) ;
+	$gch_force_header_position 	  		= genesis_get_option( 'force_header_position', 'genesis-custom-header' ) ;
 
 	if ( !isset( $_POST['gch_add_edit_header_noncename'] ) || !wp_verify_nonce( $_POST['gch_add_edit_header_noncename'], 'gch_header_nonce' ) ) {
 			return;
@@ -351,78 +375,82 @@ function gch_save_meta( $post_id ) {
 		delete_post_meta( $post_id, '_gch_enable_header' );
 	}
 	
+	if ( $gch_force_header_position != '1' ) { 
+		// Save custom header positioning enabled meta
+		if ( isset( $_POST[ 'gch_enable_custom_position' ] ) ) {
+			update_post_meta( $post_id, '_gch_enable_custom_position', $_POST['gch_enable_custom_position'] );
+		} else {
+			delete_post_meta( $post_id, '_gch_enable_custom_position' );
+		}
+		if ( isset( $_POST[ 'gch_custom_header_position' ] ) ) {
+			update_post_meta( $post_id, '_gch_custom_header_position', $_POST['gch_custom_header_position'] );
+		}
+		if ( isset( $_POST[ 'gch_custom_position_priority' ] ) ) {
+			update_post_meta( $post_id, '_gch_custom_position_priority', $_POST['gch_custom_position_priority'] );
+		}
+	}
 	
-	// Save custom header positioning enabled meta
-	if ( isset( $_POST[ 'gch_enable_custom_position' ] ) ) {
-		update_post_meta( $post_id, '_gch_enable_custom_position', $_POST['gch_enable_custom_position'] );
-	} else {
-		delete_post_meta( $post_id, '_gch_enable_custom_position' );
-	}
-	if ( isset( $_POST[ 'gch_custom_header_position' ] ) ) {
-		update_post_meta( $post_id, '_gch_custom_header_position', $_POST['gch_custom_header_position'] );
-	}
-	if ( isset( $_POST[ 'gch_custom_position_priority' ] ) ) {
-		update_post_meta( $post_id, '_gch_custom_position_priority', $_POST['gch_custom_position_priority'] );
+	if ( $gch_global_enable_header_image == '1' ) { 
+		// Save header image meta
+		if ( isset( $_POST[ 'gch_enable_image' ] ) ) {
+			update_post_meta( $post_id, '_gch_enable_image', $_POST['gch_enable_image'] );
+		} else {
+			delete_post_meta( $post_id, '_gch_enable_image' );
+		}
+		if ( isset( $_POST[ 'gch_image_type' ] ) ) {
+			update_post_meta( $post_id, '_gch_image_type', $_POST['gch_image_type'] );
+		}
+		update_post_meta( $post_id, '_gch_custom_image', $_POST['gch_custom_image'] );
+		update_post_meta( $post_id, '_gch_custom_image_alt', $_POST['gch_custom_image_alt'] );
+		update_post_meta( $post_id, '_gch_image_caption', $_POST['gch_image_caption'] );
 	}
 	
-	
-	// Save header image meta
-	if ( isset( $_POST[ 'gch_enable_image' ] ) ) {
-		update_post_meta( $post_id, '_gch_enable_image', $_POST['gch_enable_image'] );
-	} else {
-		delete_post_meta( $post_id, '_gch_enable_image' );
+	if ( $gch_global_enable_header_slideshow == '1' ) {
+		// Save header slideshow meta
+		if ( isset( $_POST[ 'gch_enable_slideshow' ] ) ) {
+			update_post_meta( $post_id, '_gch_enable_slideshow', $_POST['gch_enable_slideshow'] );
+		} else {
+			delete_post_meta( $post_id, '_gch_enable_slideshow' );
+		}
+		if ( preg_match("/(^[\[]).*([\]]$)/", $_POST['gch_slider_shortcode'] ) == 1 ){   // Ensure that string begins with [ and ends with ]
+			update_post_meta( $post_id, '_gch_slider_shortcode', $_POST['gch_slider_shortcode'] );
+		} else {
+			delete_post_meta( $post_id, '_gch_slider_shortcode' );
+		}
+		if ( isset( $_POST[ 'gch_soliloquy_slider' ] ) ) {
+			update_post_meta( $post_id, '_gch_soliloquy_slider', $_POST['gch_soliloquy_slider'] );
+		}	
+		if ( isset( $_POST[ 'gch_revolution_slider' ] ) ) {
+			update_post_meta( $post_id, '_gch_revolution_slider', $_POST['gch_revolution_slider'] );
+		}
+		if ( isset( $_POST[ 'gch_meta_slider' ] ) ) {
+			update_post_meta( $post_id, '_gch_meta_slider', $_POST['gch_meta_slider'] );
+		}
+		if ( isset( $_POST[ 'gch_sliderpro_slider' ] ) ) {
+			update_post_meta( $post_id, '_gch_sliderpro_slider', $_POST['gch_sliderpro_slider'] );
+		}
 	}
-	if ( isset( $_POST[ 'gch_image_type' ] ) ) {
-		update_post_meta( $post_id, '_gch_image_type', $_POST['gch_image_type'] );
-	}
-	update_post_meta( $post_id, '_gch_custom_image', $_POST['gch_custom_image'] );
-	update_post_meta( $post_id, '_gch_custom_image_alt', $_POST['gch_custom_image_alt'] );
-	update_post_meta( $post_id, '_gch_image_caption', $_POST['gch_image_caption'] );
 
+	if ( $gch_global_enable_header_content == '1' ) {
+		// Save header custom content meta
+		if ( isset( $_POST[ 'gch_enable_custom_content' ] ) ) {	
+			update_post_meta( $post_id, '_gch_enable_custom_content', $_POST['gch_enable_custom_content'] );
+		} else {
+			delete_post_meta( $post_id, '_gch_enable_custom_content' );
+		}
+		update_post_meta( $post_id, '_gch_custom_content', wpautop( $_POST['gch_custom_content'] ) );
+	}
 	
-	
-	// Save header slideshow meta
-	if ( isset( $_POST[ 'gch_enable_slideshow' ] ) ) {
-		update_post_meta( $post_id, '_gch_enable_slideshow', $_POST['gch_enable_slideshow'] );
-	} else {
-		delete_post_meta( $post_id, '_gch_enable_slideshow' );
-	}
-	if ( preg_match("/(^[\[]).*([\]]$)/", $_POST['gch_slider_shortcode'] ) == 1 ){   // Ensure that string begins with [ and ends with ]
-		update_post_meta( $post_id, '_gch_slider_shortcode', $_POST['gch_slider_shortcode'] );
-	} else {
-		delete_post_meta( $post_id, '_gch_slider_shortcode' );
-	}
-	if ( isset( $_POST[ 'gch_soliloquy_slider' ] ) ) {
-		update_post_meta( $post_id, '_gch_soliloquy_slider', $_POST['gch_soliloquy_slider'] );
-	}	
-	if ( isset( $_POST[ 'gch_revolution_slider' ] ) ) {
-		update_post_meta( $post_id, '_gch_revolution_slider', $_POST['gch_revolution_slider'] );
-	}
-	if ( isset( $_POST[ 'gch_meta_slider' ] ) ) {
-		update_post_meta( $post_id, '_gch_meta_slider', $_POST['gch_meta_slider'] );
-	}
-	if ( isset( $_POST[ 'gch_sliderpro_slider' ] ) ) {
-		update_post_meta( $post_id, '_gch_sliderpro_slider', $_POST['gch_sliderpro_slider'] );
-	}
-
-
-	// Save header custom content meta
-	if ( isset( $_POST[ 'gch_enable_custom_content' ] ) ) {	
-		update_post_meta( $post_id, '_gch_enable_custom_content', $_POST['gch_enable_custom_content'] );
-	} else {
-		delete_post_meta( $post_id, '_gch_enable_custom_content' );
-	}
-	update_post_meta( $post_id, '_gch_custom_content', wpautop( $_POST['gch_custom_content'] ) );
-	
-	
-	// Save header scripts meta
-	if ( isset( $_POST[ 'gch_enable_header_raw' ] ) ) {	
-		update_post_meta( $post_id, '_gch_enable_header_raw', $_POST['gch_enable_header_raw'] );
-	} else {
-		delete_post_meta( $post_id, '_gch_enable_header_raw' );
-	}
-	if ( isset( $_POST[ 'gch_header_raw' ] ) ) {	
-		update_post_meta( $post_id, '_gch_header_raw', $_POST['gch_header_raw'] );
+	if ( $gch_global_enable_header_raw == '1' ) {
+		// Save header raw meta
+		if ( isset( $_POST[ 'gch_enable_header_raw' ] ) ) {	
+			update_post_meta( $post_id, '_gch_enable_header_raw', $_POST['gch_enable_header_raw'] );
+		} else {
+			delete_post_meta( $post_id, '_gch_enable_header_raw' );
+		}
+		if ( isset( $_POST[ 'gch_header_raw' ] ) ) {	
+			update_post_meta( $post_id, '_gch_header_raw', $_POST['gch_header_raw'] );
+		}
 	}
 
 }
