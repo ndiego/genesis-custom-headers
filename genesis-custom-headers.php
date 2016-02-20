@@ -3,7 +3,7 @@
 Plugin Name: Genesis Custom Headers
 Plugin URI: http://www.outermostdesign.com
 Description: Adds custom headers to pages, posts, and custom post types in Genesis themes. The Genesis Framework 2.0+ is required.
-Version: 1.1.0
+Version: 1.1.2
 Author: Nick Diego
 Author URI: http://www.outermostdesign.com
 Text Domain: genesis-custom-headers
@@ -11,7 +11,7 @@ License: GPLv2
 */
 
 /*
-Copyright 2014 Nick Diego
+Copyright 2016 Nick Diego
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ function gch_activation_check() {
 	$latest = '2.0';
 	$theme_info = wp_get_theme( 'genesis' );
 
-	if ( 'genesis' != basename( TEMPLATEPATH ) ) {
+	if ( ! function_exists('genesis_pre') ) {
 		deactivate_plugins( plugin_basename( __FILE__ ) ); // Deactivate plugin
 		wp_die( sprintf( __( 'Sorry, you can\'t activate %1$sGenesis Custom Headers%2$s unless you have installed the %3$sGenesis Framework%4$s. Go back to the %5$sPlugins Page%4$s.', 'genesis-custom-header' ), '<em>', '</em>', '<a href="http://www.studiopress.com/themes/genesis" target="_blank">', '</a>', '<a href="javascript:history.back()">' ) );
 	}
@@ -49,6 +49,17 @@ function gch_activation_check() {
 		deactivate_plugins( plugin_basename( __FILE__ ) ); // Deactivate plugin
 		wp_die( sprintf( __( 'Sorry, you can\'t activate %1$sGenesis Custom Headers%2$s unless you have installed the %3$sGenesis %4$s%5$s. Go back to the %6$sPlugins Page%5$s.', 'genesis-custom-header' ), '<em>', '</em>', '<a href="http://www.studiopress.com/themes/genesis" target="_blank">', $latest, '</a>', '<a href="javascript:history.back()">' ) );
 	}
+}
+
+add_action('admin_init', 'gch_deactivate_check');
+/**
+ * This function runs on admin_init and checks to make sure Genesis is active, if not, it 
+ * deactivates the plugin. This is useful for when users switch to a non-Genesis themes.
+ */
+function gch_deactivate_check() {
+    if ( ! function_exists('genesis_pre') ) {
+		deactivate_plugins( plugin_basename( __FILE__ ) ); // Deactivate plugin
+    }
 }
 
 
@@ -76,7 +87,7 @@ add_action( 'admin_enqueue_scripts', 'gch_admin_scripts_enqueue' );
  * Enqueue admin scripts for image uploader and show/hide js, and admin css
  */
 function gch_admin_scripts_enqueue() {
-	//Enqueues all media scripts for we can use the media uploader
+	//Enqueues all media scripts so we can use the media uploader
     wp_enqueue_media(); 
     
     wp_register_script( 'gch-admin-scripts', plugin_dir_url( __FILE__ ) . 'js/gch-admin-scripts.js', array( 'jquery' ) );

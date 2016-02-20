@@ -94,6 +94,22 @@
 	margin-top: 5px;
 }
 
+/* Styling for alerts */
+.gch-alert {
+	color: #444;
+	padding: 15px;
+	margin: 10px 0px 10px;
+	border: 1px solid transparent;
+	border-radius: 4px;
+	background-color: #ffe2da;
+	border-color: #e4a697;
+}
+
+.gch-alert-warning {
+	background-color: #fffae7;
+	border-color: #ede0a9;
+}
+
 @media screen and (max-width: 782px) {
 	#gch-metabox .form-table td,
 	#gch-metabox .form-table th {

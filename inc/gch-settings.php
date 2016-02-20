@@ -41,19 +41,21 @@ function gch_register_admin_settings() {
 	
 			// Set the default values
 			$default_settings = array(
-				'enable_page'			  => 1,
-				'enable_post'			  => 0,
-				'metabox_title'			  => '',
-				'enable_header_image'	  => 1,
-				'enable_header_slideshow' => 1,
-				'enable_header_content'	  => 1,
-				'enable_header_raw' 	  => 0,
-				'header_position'		  => 'genesis_after_header',
-				'header_priority'		  => '1',
-				'force_header_position'	  => 0,
-				'disable_header_wrap'	  => 0,
-				'enable_header_css'		  => 0,
-				'header_css'			  => '',
+				'enable_page'			    => 1,
+				'enable_post'			    => 0,
+				'metabox_title'			    => '',
+				'enable_header_image'	    => 1,
+				'enable_header_slideshow'   => 1,
+				'enable_header_content'	    => 1,
+				'enable_header_raw' 	    => 0,
+				'header_position'		    => 'genesis_after_header',
+				'header_priority'		    => '1',
+				'force_header_position'	    => 0,
+				'disable_header_wrap'	    => 0,
+				'enable_header_css'		    => 0,
+				'header_css'			    => '',
+				'disable_marketing_notices'	=> 0,
+				'uninstall_on_delete'	    => 0
 			);
 	
 			// Create the Admin Page
@@ -77,7 +79,6 @@ function gch_register_admin_settings() {
 				array( 
 					'metabox_title',
 				) );
-			
 		}
 	
 	
@@ -91,6 +92,7 @@ function gch_register_admin_settings() {
 			add_meta_box( 'general_settings', __( 'General Settings', 'genesis-custom-header' ), array( $this, 'general_settings' ), $this->pagehook, 'main', 'high' );
 			add_meta_box( 'position_settings', __( 'Header Position Settings', 'genesis-custom-header' ), array( $this, 'position_settings' ), $this->pagehook, 'main' );
 			add_meta_box( 'style_settings', __( 'Header Style Settings', 'genesis-custom-header' ), array( $this, 'style_settings' ), $this->pagehook, 'main' );
+			add_meta_box( 'misc_settings', __( 'Misc Settings', 'genesis-custom-header' ), array( $this, 'misc_settings' ), $this->pagehook, 'main' );
 
 		}
 		
@@ -99,6 +101,17 @@ function gch_register_admin_settings() {
 		 * Metabox for all backend/admin settings: enabling custom headers, custom metabox title, etc.
 		 */
 		function general_settings() {
+			
+			$disable_notices = $this->get_field_value( 'disable_marketing_notices' );
+    		
+			if ( ! $disable_notices ) {
+				?>
+				<div class="gch-alert gch-alert-warning">
+					<?php echo sprintf( __( 'Enjoying %1$sGenesis Custom Headers%2$s but wishing you could add headers to any page on your website? Or perhaps add content to places other than just header areas? Or maybe multiple content blocks on one page? Then you should consider %3$supgrading%4$s to %1$sBlox Lite%2$s. It is completely free and available in the Wordpress.org repository. Happy with this plugin? Then you might as well turn off these notifications in the %1$sMisc Settings%2$s below.', 'genesis-custom-headers' ), '<strong>', '</strong>', '<a href="https://wordpress.org/plugins/blox-lite/" target="_blank">', '</a>', '<a href="' . admin_url( 'themes.php?page=genesis-custom-header' ) . '">' ); ?>
+				</div>
+				<?php
+			}
+			
 			?>
 			
 			<h4><?php _e( 'Enable Custom Headers On All...', 'genesis-custom-header' ); ?></h4>
@@ -356,6 +369,32 @@ function gch_register_admin_settings() {
 	
 			<?php	
 		} // end style_settings()
+		
+		
+		/**
+		 * Metabox for Misc Settings
+		 */
+		function misc_settings() {
+			?>
+			
+			<h4><?php _e( 'Disable Blox Lite Marketing Notices', 'genesis-custom-header' ); ?></h4>
+			<p>	
+				<label for="<?php echo $this->get_field_id( 'disable_marketing_notices' ); ?>">
+					<input type="checkbox" name="<?php echo $this->get_field_name( 'disable_marketing_notices' ); ?>" id="<?php echo $this->get_field_id( 'disable_marketing_notices' ); ?>" value="1" <?php checked( $this->get_field_value( 'disable_marketing_notices' ) ); ?> />
+					<?php _e( 'Check to disable those annoying marketing notices for Blox Lite!', 'genesis-custom-header' ); ?>
+				</label>
+			</p>
+			<p><span class="gch-description"><?php echo sprintf( __( 'But seriously though, the Blox Lite takes Genesis Custom Headers to the next level. If you are facing limitations with this plugin, you should definitely check it out. %1$sLearn More%2$s.', 'genesis-custom-headers' ), '<a href="https://wordpress.org/plugins/blox-lite/" target="_blank">', '</a>' ); ?></span></p>
+			
+			<h4><?php _e( 'Remove Data on Uninstall', 'genesis-custom-header' ); ?></h4>
+			<p>	
+				<label for="<?php echo $this->get_field_id( 'uninstall_on_delete' ); ?>">
+					<input type="checkbox" name="<?php echo $this->get_field_name( 'uninstall_on_delete' ); ?>" id="<?php echo $this->get_field_id( 'uninstall_on_delete' ); ?>" value="1" <?php checked( $this->get_field_value( 'uninstall_on_delete' ) ); ?> />
+					<?php _e( 'Check to completely remove all plugin data when Genesis Custom Headers is deleted', 'genesis-custom-header' ); ?>
+				</label>
+			</p>
+		<?php
+		} // end position_settings()
 	
 	
 	} // end class GCH_Admin_Settings

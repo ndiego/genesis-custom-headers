@@ -105,6 +105,7 @@ function gch_print_header() {
 	$gch_custom_image  			= (isset($custom[ '_gch_custom_image' ][0]) ? $custom[ '_gch_custom_image' ][0] : '');
 	$gch_custom_image_alt		= (isset($custom[ '_gch_custom_image_alt' ][0]) ? $custom[ '_gch_custom_image_alt' ][0] : '');
   	$gch_image_caption			= (isset($custom[ '_gch_image_caption' ][0]) ? $custom[ '_gch_image_caption' ][0] : '');
+	$gch_background_image		= (isset($custom[ '_gch_background_image' ][0]) ? $custom[ '_gch_background_image' ][0] : 0);
   	$gch_enable_slideshow  		= (isset($custom[ '_gch_enable_slideshow' ][0]) ? $custom[ '_gch_enable_slideshow' ][0] : 0);
 	$gch_slider_shortcode		= (isset($custom[ '_gch_slider_shortcode' ][0]) ? $custom[ '_gch_slider_shortcode' ][0] : '');
 	$gch_soliloquy_slider		= (isset($custom[ '_gch_soliloquy_slider' ][0]) ? $custom[ '_gch_soliloquy_slider' ][0] : '');
@@ -135,8 +136,12 @@ function gch_print_header() {
 			
 			// Print our image
 			if ( $gch_image_type == 'custom' && $gch_custom_image != '' ) {
-				echo '<div class="gch-header-image"><div class="gch-header-image-inner">';
-				echo '<img src="' . esc_url( $gch_custom_image ) . '" alt="' . $gch_custom_image_alt . '" />';
+				if ( $gch_background_image == 1 ) {
+					echo '<div class="gch-header-image"><div class="gch-header-image-inner" style="background-image: url(' . esc_url( $gch_custom_image ) . ')">';
+				} else {
+					echo '<div class="gch-header-image"><div class="gch-header-image-inner">';
+					echo '<img src="' . esc_url( $gch_custom_image ) . '" alt="' . $gch_custom_image_alt . '" />';
+				}
 				
 				// Print the caption if there is one
 				if ( $gch_image_caption != '' ) {
@@ -146,9 +151,12 @@ function gch_print_header() {
 				}
 				echo '</div></div>';
 			} else if ( $gch_image_type == 'featured' && $thumbnail == true ) {
-				echo '<div class="gch-header-image"><div class="gch-header-image-inner">';
-				echo the_post_thumbnail( 'full' );
-				
+				if ( $gch_background_image == 1 ) {
+					echo '<div class="gch-header-image"><div class="gch-header-image-inner" style="background-image: url(' . esc_url( $gch_custom_image ) . ')">';
+				} else {
+					echo '<div class="gch-header-image"><div class="gch-header-image-inner">';
+					echo the_post_thumbnail( 'full' );
+				}
 				// Print the caption if there is one
 				if ( $gch_image_caption != '' ) {
 					echo '<div class="gch-caption"><div class="gch-caption-inner">';

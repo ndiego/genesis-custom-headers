@@ -67,6 +67,7 @@ function gch_metabox_function( $post ) {
 	$gch_custom_image  			  = (isset($custom[ '_gch_custom_image' ][0]) ? $custom[ '_gch_custom_image' ][0] : '');
 	$gch_custom_image_alt		  = (isset($custom[ '_gch_custom_image_alt' ][0]) ? $custom[ '_gch_custom_image_alt' ][0] : '');
 	$gch_image_caption			  = (isset($custom[ '_gch_image_caption' ][0]) ? $custom[ '_gch_image_caption' ][0] : '');
+	$gch_background_image		  = (isset($custom[ '_gch_background_image' ][0]) ? $custom[ '_gch_background_image' ][0] : 0);
 	$gch_enable_slideshow  		  = (isset($custom[ '_gch_enable_slideshow' ][0]) ? $custom[ '_gch_enable_slideshow' ][0] : 0);
 	$gch_slider_shortcode		  = (isset($custom[ '_gch_slider_shortcode' ][0]) ? $custom[ '_gch_slider_shortcode' ][0] : '');
 	$gch_soliloquy_slider		  = (isset($custom[ '_gch_soliloquy_slider' ][0]) ? $custom[ '_gch_soliloquy_slider' ][0] : 'none');
@@ -79,6 +80,16 @@ function gch_metabox_function( $post ) {
 	$gch_header_raw  		      = (isset($custom[ '_gch_header_raw' ][0]) ? $custom[ '_gch_header_raw' ][0] : '');
 
 	wp_nonce_field( 'gch_header_nonce', 'gch_add_edit_header_noncename' );
+	
+	$disable_notices = genesis_get_option( 'disable_marketing_notices', 'genesis-custom-header' );
+    
+	if ( ! $disable_notices ) {
+		?>
+		<div class="gch-alert gch-alert-warning">
+			<?php echo sprintf( __( 'Enjoying %1$sGenesis Custom Headers%2$s but wishing you could add headers to any page on your website? Or perhaps add content to places other than just header areas? Or maybe multiple content blocks on one page? Then you should consider %3$supgrading%4$s to %1$sBlox Lite%2$s. It is completely free and available in the Wordpress.org repository. Happy with this plugin? Then you might as well turn off these notifications in the plugin %5$ssettings%4$s!', 'genesis-custom-headers' ), '<strong>', '</strong>', '<a href="https://wordpress.org/plugins/blox-lite/" target="_blank">', '</a>', '<a href="' . admin_url( 'themes.php?page=genesis-custom-header' ) . '">' ); ?>
+		</div>
+		<?php
+	}
 
 ?>
 	<table class="form-table">
@@ -212,6 +223,15 @@ function gch_metabox_function( $post ) {
 					<textarea class="gch-code-textbox" name="gch_image_caption" id="gch_image_caption" rows="3" ><?php echo esc_attr( $gch_image_caption ); ?></textarea>	
 					<div class="gch-description">
 						<?php _e( 'Only basic HTML is accepted.', 'genesis-custom-header' ); ?>
+					</div>
+				</td>
+			</tr>
+			<tr class="<?php if ( $gch_enable_image != '1' ) echo ('hidden'); ?> gch-image-enabled">
+				<th scope="row"><label for="gch_image_caption"><strong><?php _e( 'Set As Background', 'genesis-custom-header' ); ?></strong></label></th>
+				<td>
+					<label for="gch_background_image"><input type="checkbox" name="gch_background_image" id="gch_background_image" value="1" <?php checked( $gch_background_image ); ?> /> <?php _e( 'Check to enable', 'genesis-custom-header' ); ?></label>
+					<div class="gch-description">
+						<?php _e( 'Sets image as background image on gch-header-image-inner. Useful for setting up parallax headers', 'genesis-custom-header' ); ?>
 					</div>
 				</td>
 			</tr>	
@@ -403,6 +423,11 @@ function gch_save_meta( $post_id ) {
 		update_post_meta( $post_id, '_gch_custom_image', $_POST['gch_custom_image'] );
 		update_post_meta( $post_id, '_gch_custom_image_alt', $_POST['gch_custom_image_alt'] );
 		update_post_meta( $post_id, '_gch_image_caption', $_POST['gch_image_caption'] );
+		if ( isset( $_POST[ 'gch_background_image' ] ) ) {
+			update_post_meta( $post_id, '_gch_background_image', $_POST['gch_background_image'] );
+		} else {
+			delete_post_meta( $post_id, '_gch_background_image' );
+		}
 	}
 	
 	if ( $gch_global_enable_header_slideshow == '1' ) {
