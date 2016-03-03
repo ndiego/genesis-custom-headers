@@ -4,7 +4,7 @@ Donate Link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_i
 Tags: header, genesis, custom header, featured image, Genesis Framework, genesiswp
 Requires at least: 3.6
 Tested up to: 4.4.2
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,16 +12,17 @@ Add custom headers to each page/post/custom post type. Header options include: f
 
 == Description ==
 
-> = Upgrade to Blox Lite =
-> Since this plugin was first released, there have been many requests to add features and increase its functionality. Unfortunately, the code structure of this plugin made it difficult to implement most of these great ideas without breaking it for current users. Therefore, a brand new plugin was warranted. That plugin is finally available!
+> #### Upgrade to Blox Lite
+> Since Genesis Custom Headers was first released, there have been many requests to add features and increase its functionality. Unfortunately, the code structure of this plugin makes it difficult to implement most of these great ideas without breaking it for current users. Therefore, a brand new plugin was warranted. That plugin is finally available!
 > 
-> [Blox Lite - Content Blocks for Genesis](https://wordpress.org/plugins/blox-lite/) takes Genesis Custom Headers to the next level. You can add content anywhere there is a Genesis Hook, making it no longer just for custom headers. You can add content to a page, post, custom post type as in this plugin, but also virtually any page on your website. Through global blocks, you can add content to multiple pages of your website at once. And you can add as many blocks as you want on each page…The possibilities are endless!
+> [Blox Lite - Content Blocks for Genesis](https://wordpress.org/plugins/blox-lite/) takes Genesis Custom Headers to the next level. You can add content anywhere there is a Genesis Hook, making it no longer just for custom headers. You can add content to virtually any page on your website including your homepage, all single pages, archives, categories, and more. Through global blocks, you can add content to multiple pages of your website at once. And you can add as many blocks as you want on each page…The possibilities are endless!
 >
-> Blox Lite is completely free and is full featured. Prior to downloading, make sure you read the complete plugin description and watch the demo video so you understand what the plugin offers. However, there is also the premium (paid) plugin [Blox](https://www.bloxwp.com/?utm_source=genesis-custom-headers&utm_medium=plugin&utm_content=readme-links&utm_campaign=Blox_Referral_Links) that adds even more power to the plugin as well as fantastic support. But definitely give Blox Lite a try first and make sure it is right for you. 
+> Blox Lite is completely free and is full featured. Prior to downloading, make sure you read the complete plugin description and watch the demo video so you understand what the plugin offers and make sure [Blox Lite](https://wordpress.org/plugins/blox-lite/) is right for you. 
 >
 > Genesis Custom Headers will still be updated to ensure compatibility with the latest version of Wordpress and all critical bugs will be addressed. However, no new features will be added. Note that none of your custom headers will be transferred into Blox Lite if you choose to use it. These are separate plugins, but you can use both side by side.
 >
 > Thank you for using Genesis Custom Headers, or considering to use it, and I hope you will check out [Blox Lite](https://wordpress.org/plugins/blox-lite/)!
+
 
 
 **Please Note:** This plugin is only for Genesis Framework users. Genesis is a premium product by [StudioPress](http://www.studiopress.com). We have no affiliation with the company. We just love building useful tools for Genesis users.
@@ -80,6 +81,9 @@ By default, when you deactivate and uninstall this plugin, none of the settings 
 5. An output example using a custom image and caption on the Genesis default theme by StudioPress
 
 == Changelog ==
+
+= 1.1.3 =
+* Updated informational links
 
 = 1.1.2 =
 * Updated readme

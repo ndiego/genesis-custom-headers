@@ -214,7 +214,7 @@ function gch_register_admin_settings() {
 					</optgroup>
 				</select>
 			</p>
-			<p><span class="gch-description"><?php echo sprintf( __( 'Select the global header position. Please refer to the %1$sGenesis Visual Hook Guide%2$s for hook reference and position information. Some hooks are not available for Genesis child themes that are not using HTML5 markup. Custom header positioning can also be set on each individual post or page.', 'genesis-custom-header' ), '<a href="http://genesistutorials.com/visual-hook-guide/" alt="Genesis Visual Hook Guide" target="_blank">', '</a>' ); ?></span></p>
+			<p><span class="gch-description"><?php echo __( 'Select the global header position. Some hooks are not available for Genesis child themes that are not using HTML5 markup. Custom header positioning can also be set on each individual post or page.', 'genesis-custom-header' ); ?></span></p>
 			
 			<h4><label for="<?php echo $this->get_field_id( 'header_priority' ); ?>"><?php _e( 'Global Header Priority', 'genesis-custom-header' ); ?></label></h4>
 			<p class="gch-radio">

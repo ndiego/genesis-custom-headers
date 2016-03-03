@@ -137,9 +137,6 @@ function gch_metabox_function( $post ) {
 							<option value="genesis_entry_content" <?php selected( $gch_custom_header_position, 'genesis_entry_content' ); ?>>genesis_entry_content</option>
 						</optgroup>
 					</select>
-					<div class="gch-description">
-						<?php echo sprintf( __( 'Please refer to the %1$sGenesis Visual Hook Guide%2$s for hook reference and position information.', 'genesis-custom-header' ), '<a href="http://genesistutorials.com/visual-hook-guide/" alt="Genesis Visual Hook Guide" target="_blank">', '</a>' ); ?>
-					</div>
 				</td>
 			</tr>
 			<tr class="<?php if ( $gch_enable_custom_position != '1' ) echo ('hidden'); ?> gch-custom-position-enabled">
